@@ -1,14 +1,19 @@
-import 'package:map_launcher/src/models.dart';
+import 'package:collection/collection.dart';
+
+import 'models.dart';
 
 class Utils {
-  static String? enumToString(o) {
+  const Utils._();
+
+  static String? enumToString(dynamic o) {
     if (o == null) return null;
     return o.toString().split('.').last;
   }
 
-  static T enumFromString<T>(Iterable<T> values, String? value) {
-    return values
-        .firstWhere((type) => type.toString().split('.').last == value);
+  static T? enumFromString<T>(Iterable<T> values, String? value) {
+    return values.firstWhereOrNull(
+      (type) => type.toString().split('.').last == value,
+    );
   }
 
   static String? nullOrValue(dynamic nullable, String value) {

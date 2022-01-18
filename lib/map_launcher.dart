@@ -1,2 +1,2 @@
-export 'package:map_launcher/src/map_launcher.dart';
-export 'package:map_launcher/src/models.dart';
+export 'src/map_launcher.dart';
+export 'src/models.dart';

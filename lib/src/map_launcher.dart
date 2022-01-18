@@ -1,18 +1,21 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
-import 'package:map_launcher/src/directions_url.dart';
-import 'package:map_launcher/src/marker_url.dart';
-import 'package:map_launcher/src/models.dart';
-import 'package:map_launcher/src/utils.dart';
+
+import 'directions_url.dart';
+import 'marker_url.dart';
+import 'models.dart';
+import 'utils.dart';
 
 class MapLauncher {
-  static const MethodChannel _channel = const MethodChannel('map_launcher');
+  const MapLauncher._();
+
+  static const MethodChannel _channel = MethodChannel('map_launcher');
 
   static Future<List<AvailableMap>> get installedMaps async {
     final maps = await _channel.invokeMethod('getInstalledMaps');
     return List<AvailableMap>.from(
-      maps.map((map) => AvailableMap.fromJson(map)),
+      maps.map(AvailableMap.fromJson),
     );
   }
 
@@ -39,7 +42,7 @@ class MapLauncher {
     int? zoom,
     Map<String, String>? extraParams,
   }) async {
-    final String url = getMapMarkerUrl(
+    final url = getMapMarkerUrl(
       mapType: mapType,
       coords: coords,
       title: title,
@@ -48,7 +51,7 @@ class MapLauncher {
       extraParams: extraParams,
     );
 
-    final Map<String, String?> args = {
+    final args = <String, String?>{
       'mapType': Utils.enumToString(mapType),
       'url': Uri.encodeFull(url),
       'title': title,
@@ -80,7 +83,7 @@ class MapLauncher {
       extraParams: extraParams,
     );
 
-    final Map<String, String?> args = {
+    final args = <String, String?>{
       'mapType': Utils.enumToString(mapType),
       'url': Uri.encodeFull(url.replaceAll('&origin=null,null', '')),
       'destinationTitle': destinationTitle,

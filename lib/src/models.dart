@@ -1,5 +1,5 @@
-import 'package:map_launcher/src/map_launcher.dart';
-import 'package:map_launcher/src/utils.dart';
+import 'map_launcher.dart';
+import 'utils.dart';
 
 enum MapType {
   apple,
@@ -27,26 +27,30 @@ enum DirectionsMode {
 }
 
 class Coords {
+  const Coords(this.latitude, this.longitude);
+
   final double latitude;
   final double longitude;
 
-  Coords(this.latitude, this.longitude);
+  @override
+  String toString() => '$latitude,$longitude';
+
+  String toStringReversed() => '$longitude,$latitude';
 }
 
 class AvailableMap {
-  String mapName;
-  MapType mapType;
-  String icon;
-
   AvailableMap({
     required this.mapName,
     required this.mapType,
     required this.icon,
   });
 
-  static AvailableMap? fromJson(json) {
-    final MapType? mapType =
-        Utils.enumFromString(MapType.values, json['mapType']);
+  String mapName;
+  MapType mapType;
+  String icon;
+
+  static AvailableMap? fromJson(dynamic json) {
+    final mapType = Utils.enumFromString(MapType.values, json['mapType']);
     if (mapType != null) {
       return AvailableMap(
         mapName: json['mapName'],
@@ -98,6 +102,7 @@ class AvailableMap {
 
   @override
   String toString() {
-    return 'AvailableMap { mapName: $mapName, mapType: ${Utils.enumToString(mapType)} }';
+    return 'AvailableMap { mapName: $mapName, '
+        'mapType: ${Utils.enumToString(mapType)} }';
   }
 }
